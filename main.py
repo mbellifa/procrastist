@@ -103,13 +103,9 @@ class TodoistMetadataManager:
 
     def reschedule_task(self, task, new_due_date, failures):
         """Reschedule a single task to a specific date"""
-        prefix = "🔄" if failures >= 3 else ""
-        suffix = f" (Failed {failures}x)" if failures > 1 else ""
-
         self.api.update_task(
             task_id=task.id,
             due_date=new_due_date.date() if hasattr(new_due_date, 'date') else new_due_date,
-            content=f"{prefix}{task.content.replace('🔄', '').split(' (Failed')[0]}{suffix}"
         )
 
         print(f"Rescheduled: {task.content} → {new_due_date.strftime('%Y-%m-%d')} (failure #{failures})")
